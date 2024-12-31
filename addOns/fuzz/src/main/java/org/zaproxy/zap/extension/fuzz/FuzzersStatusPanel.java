@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import org.parosproxy.paros.Constant;
@@ -46,6 +47,7 @@ public class FuzzersStatusPanel extends ScanPanel2<Fuzzer<?>, FuzzersController>
     private final FuzzOptions fuzzerOptions;
 
     private JButton startScanButton;
+    private JButton modifyScanButton;
 
     private JPanel mainPanel;
     private JPanel defaultPanel;
@@ -55,10 +57,12 @@ public class FuzzersStatusPanel extends ScanPanel2<Fuzzer<?>, FuzzersController>
     public FuzzersStatusPanel(
             FuzzOptions fuzzerOptions,
             FuzzersController mainFuzzerScanController,
-            Action fuzzerUIStarter) {
+            Action fuzzerUIStarter,
+            Action fuzzerUIModifier) {
         super("fuzz", FuzzerUIUtils.FUZZER_ICON, mainFuzzerScanController);
 
         getNewScanButton().setAction(fuzzerUIStarter);
+        getModifyScanButton().setAction(fuzzerUIModifier);
         mainFuzzerScanController.setFuzzerScansPanel(this);
 
         this.fuzzerOptions = fuzzerOptions;
@@ -107,6 +111,14 @@ public class FuzzersStatusPanel extends ScanPanel2<Fuzzer<?>, FuzzersController>
     }
 
     @Override
+    protected int addToolBarElements(JToolBar toolBar, Location location, int x) {
+        if (Location.beforeButtons.equals(location)) {
+            toolBar.add(getModifyScanButton(), getGBC(x++, 0));
+        }
+        return x;
+    }
+
+    @Override
     public void scannerStarted(Fuzzer<?> fuzzer) {
         super.scannerStarted(fuzzer);
         fuzzer.addFuzzerProgressListener(getFuzzerListener());
@@ -131,6 +143,13 @@ public class FuzzersStatusPanel extends ScanPanel2<Fuzzer<?>, FuzzersController>
             startScanButton = new JButton();
         }
         return startScanButton;
+    }
+
+    private JButton getModifyScanButton() {
+        if (modifyScanButton == null) {
+            modifyScanButton = new JButton();
+        }
+        return modifyScanButton;
     }
 
     @Override

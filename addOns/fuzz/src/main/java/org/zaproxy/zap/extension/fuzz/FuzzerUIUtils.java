@@ -26,5 +26,8 @@ public final class FuzzerUIUtils {
     public static final ImageIcon FUZZER_ICON =
             new ImageIcon(FuzzersStatusPanel.class.getResource("resources/icons/fuzzer.png"));
 
+    public static final ImageIcon FUZZER_MODIFY_ICON =
+            new ImageIcon(FuzzersStatusPanel.class.getResource("resources/icons/equalizer.png"));
+
     private FuzzerUIUtils() {}
 }

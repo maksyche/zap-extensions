@@ -138,6 +138,7 @@ public class ExtensionFuzz extends ExtensionAdaptor {
 
     private FuzzersStatusPanel fuzzScansPanel;
     private FuzzerUIStarterAction fuzzerStarter;
+    private FuzzerUIModifierAction fuzzerModifier;
     private FuzzOptionsPanel fuzzOptionsPanel;
 
     private FuzzerPayloadCategory fuzzerPayloadJBroFuzzCategory;
@@ -228,7 +229,10 @@ public class ExtensionFuzz extends ExtensionAdaptor {
         super.initView(view);
 
         fuzzerStarter = new FuzzerUIStarterAction();
-        fuzzScansPanel = new FuzzersStatusPanel(fuzzOptions, fuzzersController, fuzzerStarter);
+        fuzzerModifier = new FuzzerUIModifierAction();
+        fuzzScansPanel =
+                new FuzzersStatusPanel(
+                        fuzzOptions, fuzzersController, fuzzerStarter, fuzzerModifier);
         fuzzOptionsPanel = new FuzzOptionsPanel(getMessages(), new CustomFileFuzzerAddedListener());
         fuzzOptionsPanel.setFuzzersDir(fuzzersDir);
 
@@ -826,6 +830,22 @@ public class ExtensionFuzz extends ExtensionAdaptor {
                 return;
             }
             showFuzzerDialog(selection.getFuzzerHandler(), selection.getMessage());
+        }
+    }
+
+    private class FuzzerUIModifierAction extends AbstractAction {
+
+        private static final long serialVersionUID = 5035310572308800103L;
+
+        public FuzzerUIModifierAction() {
+            super(
+                    getMessages().getString("fuzz.toolbar.button.modify"),
+                    FuzzerUIUtils.FUZZER_MODIFY_ICON);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO:
         }
     }
 
